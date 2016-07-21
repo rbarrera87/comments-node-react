@@ -15,7 +15,11 @@ server.get("/", (req, res) => {})
 
 server.post("/api/comments", urlencode, (req, res) => {
   let comment = req.body
-  comment.id = comments[comments.length-1].id + 1
+  if(comments.length === 0){
+    comment.id = 1
+  }else{
+    comment.id = comments[comments.length-1].id + 1
+  }
   comments.push(comment)
   res.json(comments)
 })
@@ -31,8 +35,6 @@ server.delete('/api/comments/:id', (req, res) => {
   res.json(comments)
 })
 
-server.get("/api/comments", (req, res) => {
-  res.json(comments)
-})
+server.get("/api/comments", (req, res) => res.json(comments))
 
 server.listen(8080, () => console.log("Server running..."))
